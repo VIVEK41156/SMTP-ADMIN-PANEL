@@ -111,6 +111,18 @@ export default function App() {
       <main className="main-content">
         {renderPage()}
       </main>
+
+      {/* ── Mobile Bottom Navigation ──────────────────────── */}
+      <nav className="mobile-bottom-nav">
+        {NAV.map(({ id, label, Icon }) => (
+          <button key={`mob-${id}`}
+            className={`mob-nav-btn ${page === id ? 'active' : ''}`}
+            onClick={() => setPage(id)}>
+            <Icon size={20} />
+            <span>{label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   </>
   );

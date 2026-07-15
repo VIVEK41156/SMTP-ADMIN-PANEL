@@ -1041,7 +1041,53 @@ kbd {
   text-transform: uppercase;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* ── Mobile Bottom Navigation ──────────────────────────── */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  padding: 8px 16px 20px;
+  z-index: 1000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.mob-nav-btn {
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 8px;
+  flex: 1;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.mob-nav-btn span {
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.mob-nav-btn.active {
+  color: var(--accent);
+}
+
+.mob-nav-btn.active svg {
+  stroke-width: 2.5px;
+}
+
+/* 📱 Responsive 📱 ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .sidebar { width: 220px; }
   .main-content { margin-left: 220px; padding: 24px; }
@@ -1051,6 +1097,11 @@ kbd {
 
 @media (max-width: 600px) {
   .sidebar { display: none; }
-  .main-content { margin-left: 0; padding: 16px; }
+  .mobile-bottom-nav { display: flex; justify-content: space-around; }
+  .main-content { margin-left: 0; padding: 16px; padding-bottom: 85px; }
   .stats-row { grid-template-columns: 1fr; }
+  .email-preview-container { 
+    zoom: 0.6; /* Scale down the email preview slightly on small phones */
+    transform-origin: top center;
+  }
 }
