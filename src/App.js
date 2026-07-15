@@ -9,6 +9,7 @@ import SmtpConfig from './components/SmtpConfig';
 import SendEmail  from './components/SendEmail';
 import Templates  from './components/Templates';
 import EmailLogs  from './components/EmailLogs';
+import Preloader  from './components/Preloader';
 
 const NAV = [
   { id: 'smtp',      label: 'SMTP Config',      sub: 'Server settings',  Icon: Server },
@@ -20,6 +21,7 @@ const NAV = [
 export default function App() {
   const [page, setPage]               = useState('smtp');
   const [smtpConfigured, setSmtpConfigured] = useState(false);
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
     api.getSmtpConfig()
@@ -38,9 +40,12 @@ export default function App() {
   };
 
   return (
-    <div className="app-shell">
-      {/* ── Sidebar ─────────────────────────────────────────── */}
-      <aside className="sidebar">
+    <>
+      {isAppLoading && <Preloader onFinish={() => setIsAppLoading(false)} />}
+      
+      <div className="app-shell" style={{ opacity: isAppLoading ? 0 : 1, transition: 'opacity 0.5s ease' }}>
+        {/* ── Sidebar ─────────────────────────────────────────── */}
+        <aside className="sidebar">
         {/* Brand */}
         <div className="sidebar-brand">
           <div className="brand-logo">
@@ -107,5 +112,6 @@ export default function App() {
         {renderPage()}
       </main>
     </div>
+  </>
   );
 }

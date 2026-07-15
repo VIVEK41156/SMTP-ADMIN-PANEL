@@ -1,0 +1,120 @@
+.preloader-overlay {
+  position: fixed;
+  inset: 0;
+  background: #f8fafc;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.preloader-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Spinner & Badge */
+.logo-spinner-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+
+.ring-1 {
+  border-top-color: #c0392b;
+  border-right-color: rgba(192, 57, 43, 0.3);
+  animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.ring-2 {
+  inset: 10px;
+  border-bottom-color: #1a3a6e;
+  border-left-color: rgba(26, 58, 110, 0.3);
+  animation: spin-reverse 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.badge-center {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #1a3a6e, #c0392b);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.badge-text {
+  color: white;
+  font-size: 28px;
+  font-weight: 900;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1;
+}
+
+/* Text */
+.preloader-text {
+  text-align: center;
+  animation: slide-up-fade 0.8s ease forwards;
+}
+
+.preloader-text h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #1a3a6e;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.preloader-text h2 span {
+  color: #c0392b;
+}
+
+.preloader-text p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3); }
+  50% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(192, 57, 43, 0.5); }
+}
+
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
