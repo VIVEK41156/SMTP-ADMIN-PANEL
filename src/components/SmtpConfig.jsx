@@ -235,7 +235,7 @@ export default function SmtpConfig({ onConfigSaved }) {
           </div>
           Quick Reference
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
           {[
             { provider: 'Gmail',   host: 'smtp.gmail.com',       port: '587', enc: 'TLS' },
             { provider: 'Outlook', host: 'smtp.office365.com',   port: '587', enc: 'TLS' },
