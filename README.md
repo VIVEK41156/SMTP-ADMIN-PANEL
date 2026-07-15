@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Web Digital Mantra - SMTP Admin Panel 🚀
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a full-stack application built for **Web Digital Mantra** to seamlessly manage and send branded HTML emails via any SMTP provider.
 
-## Available Scripts
+## 🛠️ Technology Stack
 
-In the project directory, you can run:
+- **Frontend**: React.js (v19)
+- **UI & Styling**: Vanilla CSS3 (Glassmorphism design system) & Lucide React Icons
+- **Backend API**: Node.js & Express.js
+- **Email Engine**: Nodemailer
+- **Deployment Infrastructure**: Vercel (Static Frontend + Serverless Functions)
 
-### `npm start`
+## 🏗️ Architecture Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The system operates on a modern Client-Server REST API architecture:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **The React Frontend** handles all user interactions, maintaining state dynamically without page reloads.
+2. **The Express Backend** intercepts API requests (like `/api/send-email`).
+3. **Dynamic Template Engine**: Before sending, the backend passes the user's raw text through a custom HTML builder (`buildHtmlEmail`). This wraps the text in a highly professional, mobile-responsive template styled with the brand's colors (`#c0392b` and `#1a3a6e`).
+4. **CID Image Embedding**: To bypass aggressive email client image blockers (which usually block `base64` or external HTTP links), the backend natively embeds the actual company logo as a CID attachment directly inside the MIME email payload. This guarantees the logo renders instantly for the recipient.
+5. **Vercel Serverless Optimization**: The backend utilizes an intelligent in-memory fallback cache to safely run on Vercel's strict Read-Only file system, ensuring total cloud compatibility without requiring an external database.
 
-### `npm test`
+## 🚀 How to Run Locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Clone the repository
+2. Install dependencies for the frontend and backend:
+   ```bash
+   npm install
+   cd server && npm install
+   ```
+3. Start the application:
+   ```bash
+   npm start          # Starts the React Frontend (Port 3000)
+   cd server && node index.js  # Starts the Express Backend (Port 5000)
+   ```
