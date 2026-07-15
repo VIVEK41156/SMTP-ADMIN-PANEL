@@ -6,6 +6,18 @@
       "src": "favicon.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml"
+    },
+    {
+      "src": "logo192.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo512.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
