@@ -1,0 +1,9 @@
+{
+  "host": "smtp.gmail.com",
+  "port": 587,
+  "username": "vivekparri41156@gmail.com",
+  "password": "rtlfyhxhdswwbxmg",
+  "encryption": "TLS",
+  "senderName": "vivek",
+  "senderEmail": "gudurubose@gmail.com"
+}
