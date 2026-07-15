@@ -19,11 +19,15 @@ export default function EmailLogs() {
   const [loading, setLoading] = useState(true);
   const [clearing, setClearing] = useState(false);
   const [filter, setFilter]   = useState('All');
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const fetchLogs = () => {
     setLoading(true);
     api.getLogs()
-      .then(res => setLogs(res.logs || []))
+      .then(res => {
+        setLogs(res.logs || []);
+        setSelectedIds([]);
+      })
       .catch(() => setLogs([]))
       .finally(() => setLoading(false));
   };
@@ -35,12 +39,35 @@ export default function EmailLogs() {
     setClearing(true);
     await api.clearLogs();
     setLogs([]);
+    setSelectedIds([]);
+    setClearing(false);
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedIds.length === 0) return;
+    if (!window.confirm(`Delete ${selectedIds.length} selected log(s) permanently?`)) return;
+    setClearing(true);
+    await api.clearLogs(selectedIds);
+    setLogs(prev => prev.filter(l => !selectedIds.includes(l.id)));
+    setSelectedIds([]);
     setClearing(false);
   };
 
   const successCount = logs.filter(l => l.status === 'Success').length;
   const failCount    = logs.filter(l => l.status === 'Failed').length;
   const filtered     = filter === 'All' ? logs : logs.filter(l => l.status === filter);
+
+  const allSelected = filtered.length > 0 && selectedIds.length === filtered.length;
+
+  const toggleSelectAll = () => {
+    if (allSelected) setSelectedIds([]);
+    else setSelectedIds(filtered.map(l => l.id));
+  };
+
+  const toggleSelect = (id) => {
+    if (selectedIds.includes(id)) setSelectedIds(prev => prev.filter(i => i !== id));
+    else setSelectedIds(prev => [...prev, id]);
+  };
 
   return (
     <div>
@@ -113,10 +140,16 @@ export default function EmailLogs() {
             <button id="refresh-logs-btn" className="btn btn-ghost btn-sm" onClick={fetchLogs}>
               <RotateCcw size={13} /> Refresh
             </button>
-            <button id="clear-logs-btn" className="btn btn-danger btn-sm"
-              onClick={handleClear} disabled={clearing || logs.length === 0}>
-              {clearing ? <><span className="spinner" /> Clearing…</> : <><Trash2 size={13} /> Clear</>}
-            </button>
+            {selectedIds.length > 0 ? (
+              <button className="btn btn-danger btn-sm" onClick={handleDeleteSelected} disabled={clearing}>
+                {clearing ? <><span className="spinner" /> Deleting…</> : <><Trash2 size={13} /> Delete ({selectedIds.length})</>}
+              </button>
+            ) : (
+              <button id="clear-logs-btn" className="btn btn-danger btn-sm"
+                onClick={handleClear} disabled={clearing || logs.length === 0}>
+                {clearing ? <><span className="spinner" /> Clearing…</> : <><Trash2 size={13} /> Clear All</>}
+              </button>
+            )}
           </div>
         </div>
 
@@ -141,7 +174,9 @@ export default function EmailLogs() {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th style={{ width: 40 }}>#</th>
+                  <th style={{ width: 40, textAlign: 'center' }}>
+                    <input type="checkbox" checked={allSelected} onChange={toggleSelectAll} style={{ cursor: 'pointer' }} />
+                  </th>
                   <th><Mail size={11} style={{ marginRight: 6, verticalAlign: 'middle' }} />Recipient</th>
                   <th><FileText size={11} style={{ marginRight: 6, verticalAlign: 'middle' }} />Template</th>
                   <th>Subject</th>
@@ -152,8 +187,10 @@ export default function EmailLogs() {
               </thead>
               <tbody>
                 {filtered.map((log, i) => (
-                  <tr key={log.id}>
-                    <td style={{ color: 'var(--text-dim)', fontSize: 12 }}>{i + 1}</td>
+                  <tr key={log.id} style={{ background: selectedIds.includes(log.id) ? 'rgba(99,132,255,0.05)' : 'transparent' }}>
+                    <td style={{ textAlign: 'center' }}>
+                      <input type="checkbox" checked={selectedIds.includes(log.id)} onChange={() => toggleSelect(log.id)} style={{ cursor: 'pointer' }} />
+                    </td>
 
                     <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
                       {log.recipient}

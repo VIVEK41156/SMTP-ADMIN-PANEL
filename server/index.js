@@ -455,7 +455,16 @@ app.post('/api/send-email', async (req, res) => {
 
 // ── Logs ─────────────────────────────────────────────────────────────────────
 app.get('/api/logs',    (req, res) => res.json({ success: true, logs: readJSON(LOGS_FILE, []) }));
-app.delete('/api/logs', (req, res) => { writeJSON(LOGS_FILE, []); res.json({ success: true, message: 'Logs cleared.' }); });
+app.delete('/api/logs', (req, res) => {
+  if (req.body && req.body.ids && Array.isArray(req.body.ids)) {
+    const currentLogs = readJSON(LOGS_FILE, []);
+    const filteredLogs = currentLogs.filter(log => !req.body.ids.includes(log.id));
+    writeJSON(LOGS_FILE, filteredLogs);
+    return res.json({ success: true, message: `${req.body.ids.length} logs deleted.` });
+  }
+  writeJSON(LOGS_FILE, []);
+  res.json({ success: true, message: 'All logs cleared.' });
+});
 
 // ── HTML Preview ──────────────────────────────────────────────────────────────
 app.post('/api/preview-email', (req, res) => {

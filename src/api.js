@@ -25,5 +25,10 @@ export const api = {
 
   // Logs
   getLogs: () => fetch(`${BASE_URL}/logs`).then(r => r.json()),
-  clearLogs: () => fetch(`${BASE_URL}/logs`, { method: 'DELETE' }).then(r => r.json()),
+  clearLogs: (ids) =>
+    fetch(`${BASE_URL}/logs`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      ...(ids && ids.length > 0 ? { body: JSON.stringify({ ids }) } : {}),
+    }).then(r => r.json()),
 };
